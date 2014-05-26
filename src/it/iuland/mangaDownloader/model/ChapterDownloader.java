@@ -99,13 +99,24 @@ public class ChapterDownloader {
 		
 			Elements link_nodes = html_document.select("img[id=mainImg]"); //in xpath: //image[@id=mainImg]
 		
-			for (Element element : link_nodes) {		
-				images.add(element.attr("src"));
+			for (Element element : link_nodes) {
+				this.addUrl(images, element.attr("src"));
 			}		
 		}
 		return images;
 	}
 	
+	private void addUrl(List<String> images, String url) {
+		if (this.isWellformed(url))
+			images.add(url);
+		else
+			images.add("http:" + url);		
+	}
+
+	private boolean isWellformed(String url) {
+		return url.matches("^(http|https|www)://");
+	}
+
 	public void fetch(String path,View view, MangaDownloader istanceMangaDownloader) {
 		this.view = view;
 		this.mangaDownloader = istanceMangaDownloader;
