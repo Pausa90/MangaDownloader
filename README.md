@@ -11,7 +11,7 @@ The project resulted from the need to download a lot of mangas and it was a Java
 
 MangaDownloader can download an entire Manga or resume a previously download. It is helpfull when the manga is not over and a new chapter is released constantly.
 
-Every Manga is stored in a foldier in your file system, which is divided into many foldiers as there are chapters (each chapter is downloaded in multithreading).
+Every manga is stored in a foldier in your file system, which is divided into many foldiers as there are chapters (each chapter is downloaded in multithreading).
 
 Also Ubuntu user can use a bash scripts, located in extractPdfFromJPGs, to extract a pdf from the downloaded images. 
 
@@ -29,12 +29,14 @@ To use it just follow the instructions.
 ### PDF Extraction
 
 These project contains two scripts: "extractPdf.sh" and "mangaToPDF.sh".
+
 To get the pdf, put the first one in the foldier where are contained chapters' directory and run the script.
+
 The second one is a launcher and need if you want to extract more pdf "togheter". 
 
 ## Bug Notes
 
-There is a known GUI's bug: it may happen that the update bars do not follow the download.
+There is a known GUI's bug: it may happen that the update bars do not follow the download. Your download will be ok.
 
 
 
