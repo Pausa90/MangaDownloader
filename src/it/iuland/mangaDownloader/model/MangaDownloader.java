@@ -135,11 +135,24 @@ public class MangaDownloader{
 			extractChapters();
 			this.chapters = revertList(this.chapters);
 			fixList(chapter);
-			this.view.setChaptersNumber(this.chapters.size()-(int)chapter);		
+			int chaptersToDownload = this.getChaptersToDownloadNumber(chapter);
+			this.view.setChaptersNumber(chaptersToDownload);		
 			this.downloadChapter();			
 		}
 		
 	}
+	
+	private int getChaptersToDownloadNumber(double chapter) {
+		for (int i=0; i<this.chapters.size(); i++) {
+			ChapterDownloader chapter_i = this.chapters.get(i);
+			double chapter_i_number = Double.parseDouble(chapter_i.getNumber());
+			if (chapter_i_number == chapter)
+				return this.chapters.size() - i;
+		}
+		//Should be handled better
+		return this.chapters.size();
+	}
+	
 	private double evaluateChapter() {
 		try{
 			File[] chaptersDirectory = new File(this.path).listFiles(); 
