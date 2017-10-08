@@ -55,7 +55,6 @@ public class View extends JFrame {
 	}
 	
 	public void setChaptersNumber(int chaptersNumber){
-		System.out.println(chaptersNumber);
 		this.chaptersBar.setMaximum(chaptersNumber);
 	}
 	
