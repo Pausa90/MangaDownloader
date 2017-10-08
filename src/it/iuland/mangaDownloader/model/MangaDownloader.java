@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -144,28 +146,41 @@ public class MangaDownloader{
 			List<Double> chaptersDouble = this.extractDoubleFromFileName(chaptersDirectory);				
 			return Collections.max(chaptersDouble);
 		} catch (NumberFormatException e){
-			this.view.newPopUp("Wrong Path");
+			this.view.newPopUp("Cant Evaluate Chapter");
 			return -1;
 		} catch (NullPointerException e) {
-			this.view.newPopUp("Wrong Path");
+			this.view.newPopUp("Cant Evaluate Chapter");
 			return -1;
 		}
 	}
 
 	private List<Double> extractDoubleFromFileName(File[] chaptersDirectory) throws NumberFormatException, NullPointerException{
+//		List<Double> chaptersDouble = new LinkedList<Double>();
+//		String fileName;
+//		String[] splitted;
+//		int index = this.mangaName.split(" ").length;
+//		for (File file : chaptersDirectory){
+//			fileName = file.getName();	
+//			splitted = fileName.split(" ");
+//			fileName = splitted[index];
+//			if (this.linuxOS){
+//				splitted = fileName.split(":");
+//				chaptersDouble.add(new Double(splitted[0]));
+//			} else 
+//				chaptersDouble.add(new Double(fileName));
+//		}
+//		return chaptersDouble;
 		List<Double> chaptersDouble = new LinkedList<Double>();
-		String fileName;
-		String[] splitted;
-		int index = this.mangaName.split(" ").length;
+		Pattern pattern = Pattern.compile(" [0-9]+:");
+		
 		for (File file : chaptersDirectory){
-			fileName = file.getName();	
-			splitted = fileName.split(" ");
-			fileName = splitted[index];
-			if (this.linuxOS){
-				splitted = fileName.split(":");
-				chaptersDouble.add(new Double(splitted[0]));
-			} else 
-				chaptersDouble.add(new Double(fileName));
+			Matcher matcher = pattern.matcher(file.getName());
+			if (matcher.find()) {
+				String chapterNumber = matcher.group();
+				chapterNumber = chapterNumber.substring(0, chapterNumber.length()-1);
+				chaptersDouble.add(new Double(chapterNumber));
+			}
+			
 		}
 		return chaptersDouble;
 	}

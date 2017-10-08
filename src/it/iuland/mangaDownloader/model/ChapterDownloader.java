@@ -42,7 +42,7 @@ public class ChapterDownloader {
 		this.name = name;
 		this.setNumber();
 		this.pagesUrl = new ArrayList<String>();
-		this.pagesUrl.add(url);
+		//this.pagesUrl.add(url);
 		this.activeThread = 0;
 		this.lastChapterDownloading = 0;
 		this.linuxOS = linuxOS;
@@ -66,7 +66,8 @@ public class ChapterDownloader {
 			this.view.newPopUp("Internal Error:\n"+ e.toString());
 		}
 		
-		Elements link_nodes = indexHtml.select("div.pagination > a"); //in xpath: //div[@class="pagination"]/a
+		/** Change after MangaEden changed **/
+		/*Elements link_nodes = indexHtml.select("div.pagination > a"); //in xpath: //div[@class="pagination"]/a
 		
 		for (Element element : link_nodes) {			
 			String partial_url = element.attr("href");
@@ -81,8 +82,12 @@ public class ChapterDownloader {
 			if (Double.parseDouble(this.number) > 1)
 				this.pagesUrl.remove(1);
 		}
-		this.pagesUrl.remove(this.pagesUrl.size()-1);
-		
+		this.pagesUrl.remove(this.pagesUrl.size()-1);*/
+		Elements link_nodes = indexHtml.select("select#pageSelect > option"); //in xpath: //select[@id="pageSelect"]/option
+		for (Element element : link_nodes) {
+			String partial_url = element.attr("value");
+			this.pagesUrl.add(siteName + partial_url);
+		}
 	}
 	
 
@@ -107,6 +112,8 @@ public class ChapterDownloader {
 	}
 	
 	private void addUrl(List<String> images, String url) {
+		//Le nuove modifiche di MangaEden hanno introdotto i cdn, pertanto va eliminato l'iniziale //
+		url = url.substring(2);
 		if (this.isWellformed(url))
 			images.add(url);
 		else
@@ -186,19 +193,33 @@ public class ChapterDownloader {
 
 	//controllare se è un png
 	private void downloadImage(String stringUrl, String file_name) throws IOException {
-			URL url = new URL(stringUrl);
-			InputStream is = url.openStream();
-			OutputStream os = new FileOutputStream(file_name);
-
-			byte[] b = new byte[2048];
-			int length;
-
-			while ((length = is.read(b)) != -1) {
-				os.write(b, 0, length);
-			}
-			is.close();
-			os.close();
+		//Fix the url
+		String protocol = stringUrl.split(":")[0];
+		stringUrl = protocol + "://" + stringUrl.substring(protocol.length()+1);
+		
+		//Fix the exstension
+		String[] file_name_splitted = file_name.split("\\.");
+		String[] stringUrl_splitted = stringUrl.split("\\.");
+		String file_name_extension = file_name_splitted[file_name_splitted.length-1];
+		String image_extension = stringUrl_splitted[stringUrl_splitted.length-1];
+		if (!file_name_extension.equals(image_extension)) {
+			file_name = file_name.substring(0, file_name.length()-file_name_extension.length()) + image_extension;
 		}
+		
+		
+		URL url = new URL(stringUrl);
+		InputStream is = url.openStream();
+		OutputStream os = new FileOutputStream(file_name);
+
+		byte[] b = new byte[2048];
+		int length;
+
+		while ((length = is.read(b)) != -1) {
+			os.write(b, 0, length);
+		}
+		is.close();
+		os.close();
+	}
 		
 //	public String toString(){
 //		return "chapter: "+this.number;
