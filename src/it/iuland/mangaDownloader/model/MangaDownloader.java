@@ -183,17 +183,33 @@ public class MangaDownloader{
 //				chaptersDouble.add(new Double(fileName));
 //		}
 //		return chaptersDouble;
-		List<Double> chaptersDouble = new LinkedList<Double>();
-		Pattern pattern = Pattern.compile(" [0-9]+:");
 		
-		for (File file : chaptersDirectory){
-			Matcher matcher = pattern.matcher(file.getName());
-			if (matcher.find()) {
-				String chapterNumber = matcher.group();
+		List<Double> chaptersDouble = new LinkedList<Double>();
+		if (this.linuxOS) {
+			Pattern pattern = Pattern.compile(" [0-9]+:");
+			
+			for (File file : chaptersDirectory){
+				Matcher matcher = pattern.matcher(file.getName());
+				if (matcher.find()) {
+					String chapterNumber = matcher.group();
+					chapterNumber = chapterNumber.substring(0, chapterNumber.length()-1);
+					chaptersDouble.add(new Double(chapterNumber));
+				}
+				
+			}
+		} else {
+			Pattern pattern = Pattern.compile(" [0-9]+");
+			
+			for (File file : chaptersDirectory){
+				Matcher matcher = pattern.matcher(file.getName());
+				String chapterNumber = "-1";
+				while (matcher.find()) {
+					chapterNumber = matcher.group();
+				} 
 				chapterNumber = chapterNumber.substring(0, chapterNumber.length()-1);
 				chaptersDouble.add(new Double(chapterNumber));
+				
 			}
-			
 		}
 		return chaptersDouble;
 	}
