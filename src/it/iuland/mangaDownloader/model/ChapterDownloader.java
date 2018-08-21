@@ -117,7 +117,8 @@ public class ChapterDownloader {
 		if (this.isWellformed(url))
 			images.add(url);
 		else
-			images.add("http:" + url);		
+			//images.add("http:" + url);
+			images.add("https:" + url);
 	}
 
 	private boolean isWellformed(String url) {
@@ -206,7 +207,7 @@ public class ChapterDownloader {
 			file_name = file_name.substring(0, file_name.length()-file_name_extension.length()) + image_extension;
 		}
 		
-		
+		//System.out.println("DEBUG: downloading " + stringUrl + " into " + file_name);
 		URL url = new URL(stringUrl);
 		InputStream is = url.openStream();
 		OutputStream os = new FileOutputStream(file_name);
