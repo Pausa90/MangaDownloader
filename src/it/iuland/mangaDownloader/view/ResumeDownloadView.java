@@ -120,7 +120,7 @@ public class ResumeDownloadView extends View{
 		
 		
 		this.getContentPane().setLayout(new GridLayout(0,1));
-		this.getContentPane().add(new JLabel("Manga download from www.mangaeden.com"));		
+		this.getContentPane().add(new JLabel("Manga download from www.mangaworld.io"));		
 		this.getContentPane().add(new JLabel("Insert manga url:"));
 		this.getContentPane().add(this.mangaUrlTF);
 		this.getContentPane().add(new JLabel("Insert chapter to start: (if empty, it evaluates by itself)"));

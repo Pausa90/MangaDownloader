@@ -49,15 +49,20 @@ public class MangaDownloader{
 		} catch (IOException e) {
 			this.view.newPopUp("Internal Error:\n"+ e.toString());
 		}
-		Elements link_nodes = indexHtml.select("tbody a");
+		//Adeguamento MangaWorld
+		//Elements link_nodes = indexHtml.select("tbody a");
+		Elements link_nodes = indexHtml.select("div.chapter a");
 		
 		String manga_name = getNameFromUrl();
 		
 		for (Element element : link_nodes) {
 			String partial_url = element.attr("href");
-			String name = element.text();
-			if (partial_url.contains(manga_name)){			
-				String complete_url = siteName + partial_url;
+			//String name = element.text();
+			String name = element.attr("title");
+			if (partial_url.contains(manga_name)){	
+				//Adeguamento MangaWorld		
+				//String complete_url = siteName + partial_url;
+				String complete_url = partial_url;
 				ChapterDownloader chapter = new ChapterDownloader(complete_url,name,this.linuxOS,this.mangaName);
 				try {
 					Double.parseDouble(chapter.getNumber()); //alcuni link potrebbero non essere riferiti a capitoli

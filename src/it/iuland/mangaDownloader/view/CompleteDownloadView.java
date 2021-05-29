@@ -106,7 +106,7 @@ public class CompleteDownloadView extends View{
 		});		
 		
 		this.getContentPane().setLayout(new GridLayout(0,1));
-		this.getContentPane().add(new JLabel("Manga download from www.mangaeden.com"));		
+		this.getContentPane().add(new JLabel("Manga download from www.mangaworld.io"));		
 		this.getContentPane().add(new JLabel("Insert manga name:"));
 		this.getContentPane().add(this.mangaNameTF);
 		this.getContentPane().add(new JLabel("Insert manga url:"));

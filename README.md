@@ -1,6 +1,6 @@
 # MangaDownloader
 
-MangaDownlader is a simple Java automatic tool to download manga from [MangaEden].
+MangaDownlader is a simple Java automatic tool to download manga from [MangaWorld].
 
 The project resulted from the need to download a lot of mangas and it was a Java experiment with:
 * Multithreading programming
@@ -21,7 +21,7 @@ To use it just follow the instructions.
 
 ### Download the Manga
 
-* Go to [MangaEden] and select a manga from the list (you have to find a page similar to [this one]). When you find it, just copy the url.
+* Go to [MangaWorld] and select a manga from the list (you have to find a page similar to [this one]). When you find it, just copy the url.
 * Run mangaedenDownloader.jar on your system 
 * Select "Full Download" or "Resume Download", according to the needs, and complete the fields as request.
 * Press "Start" and wait until it has finished.
@@ -44,6 +44,6 @@ There is a known GUI's bug: it may happen that the update bars do not follow the
 
 
 
-[MangaEden]: http://www.mangaeden.com/
+[MangaEden]: https://www.mangaworld.io
 [jsoup]: http://jsoup.org/
-[this one]: http://www.mangaeden.com/en-manga/naruto/
+[this one]: https://www.mangaworld.io/manga/716/kimetsu-no-yaiba

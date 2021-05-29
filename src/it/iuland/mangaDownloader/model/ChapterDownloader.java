@@ -25,7 +25,9 @@ public class ChapterDownloader {
 	private String number;
 	private String name;
 	private List<String> pagesUrl;
-	private final String siteName = "http://www.mangaeden.com";
+	//Adeguamento MangaWorld
+	//private final String siteName = "http://www.mangaeden.com";
+	private final String siteName = "";
 	private final int concurrencyLevel = 5;
 	private int activeThread;
 	private int lastChapterDownloading;
@@ -50,8 +52,13 @@ public class ChapterDownloader {
 	}
 
 	private void setNumber() {
-		String[] splitted = this.url.split("/");
-		this.number = splitted[splitted.length-2];
+		//MangaEden
+		//String[] splitted = this.url.split("/");
+		//this.number = splitted[splitted.length-2];
+		//MangaWorld
+		String[] splitted = this.name.split("Capitolo ");
+		String substring = splitted[splitted.length-1];
+		this.number = substring.replaceAll("[^0-9.]", "");
 	}
 	
 	public String getNumber(){
@@ -59,9 +66,13 @@ public class ChapterDownloader {
 	}
 
 	private void extractPages() {
+		//MangaWorld
+		String downloadingUrl = this.url + "?style=list"; 
 		Document indexHtml = null;
 		try {
-			indexHtml = Jsoup.connect(this.url).timeout(3000).get();
+			//MangaWorld
+			//indexHtml = Jsoup.connect(this.url).timeout(3000).get();
+			indexHtml = Jsoup.connect(downloadingUrl).timeout(3000).get();
 		} catch (IOException e) {
 			this.view.newPopUp("Internal Error:\n"+ e.toString());
 		}
@@ -83,17 +94,25 @@ public class ChapterDownloader {
 				this.pagesUrl.remove(1);
 		}
 		this.pagesUrl.remove(this.pagesUrl.size()-1);*/
-		Elements link_nodes = indexHtml.select("select#pageSelect > option"); //in xpath: //select[@id="pageSelect"]/option
+
+		//Adeguamento MangaWorld	
+		//Elements link_nodes = indexHtml.select("select#pageSelect > option"); //in xpath: //select[@id="pageSelect"]/option
+		Elements link_nodes = indexHtml.select("div#page img.img-fluid"); 		
 		for (Element element : link_nodes) {
-			String partial_url = element.attr("value");
-			this.pagesUrl.add(siteName + partial_url);
+
+			//MangaWorld
+			//String partial_url = element.attr("value");
+			//this.pagesUrl.add(siteName + partial_url);
+			String partial_url = element.attr("src");
+			this.pagesUrl.add(partial_url);
+			
 		}
 	}
 	
 
 	private List<String> extractImages() throws java.net.SocketTimeoutException {
 		
-		List<String> images = new ArrayList<String>();
+		/*List<String> images = new ArrayList<String>();
 		for (String page : this.pagesUrl){
 			Document html_document = null;
 			try {
@@ -107,7 +126,8 @@ public class ChapterDownloader {
 			for (Element element : link_nodes) {
 				this.addUrl(images, element.attr("src"));
 			}		
-		}
+		}*/
+		List<String> images = this.pagesUrl;
 		return images;
 	}
 	
@@ -194,9 +214,10 @@ public class ChapterDownloader {
 
 	//controllare se è un png
 	private void downloadImage(String stringUrl, String file_name) throws IOException {
+		//MangaWorld
 		//Fix the url
-		String protocol = stringUrl.split(":")[0];
-		stringUrl = protocol + "://" + stringUrl.substring(protocol.length()+1);
+		//String protocol = stringUrl.split(":")[0];
+		//stringUrl = protocol + "://" + stringUrl.substring(protocol.length()+1);
 		
 		//Fix the exstension
 		String[] file_name_splitted = file_name.split("\\.");
