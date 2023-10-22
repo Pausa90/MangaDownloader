@@ -167,7 +167,8 @@ public class ChapterDownloader {
 		this.view.setPagesNumber(imagesUrl.size());
 		
 		//Creo la directory
-		if (this.linuxOS) this.path = path+this.name+"/";
+		//if (this.linuxOS) this.path = path+this.name+"/";
+		if (this.linuxOS) this.path = path+this.mangaName+" "+this.number+"/";
 		else this.path = path+this.mangaName+" "+this.number+"\\";
 		try {
 			this.makeDirectory(this.path);
